@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: t1
+      POSTGRES_USER: t1_user
+      POSTGRES_PASSWORD: 123
+      PGDATA: "/var/lib/postgresql/data/t1pgdata"
+    ports:
+      - "5430:5432"
+    volumes:
+      - t1-data:/var/lib/postgresql/data
+    networks:
+      - postgres
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:7.2
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "mail@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "123"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - postgres
+
+volumes:
+  pgadmin-data:
+  t1-data:
+
+networks:
+  postgres:
+    driver: bridge
