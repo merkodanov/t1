@@ -18,20 +18,24 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
 
+    @Override
     public List<TransactionResponseDto> getAll() {
         return transactionRepository.findAll()
                 .stream().map(transactionMapper::toResponseDto).collect(Collectors.toList());
     }
 
+    @Override
     public Optional<TransactionResponseDto> getById(long id) {
         return transactionRepository.findById(id).map(transactionMapper::toResponseDto);
     }
 
+    @Override
     public TransactionResponseDto save(TransactionRequestDto transactionRequestDto) {
         return transactionMapper.toResponseDto(
                 transactionRepository.save(transactionMapper.toEntity(transactionRequestDto)));
     }
 
+    @Override
     public void delete(long id) {
         transactionRepository.deleteById(id);
     }

@@ -18,19 +18,23 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
 
+    @Override
     public List<AccountResponseDto> getAll() {
         return accountRepository.findAll().stream()
                 .map(accountMapper::toResponseDto).collect(Collectors.toList());
     }
 
+    @Override
     public Optional<AccountResponseDto> getById(long id) {
         return accountRepository.findById(id).map(accountMapper::toResponseDto);
     }
 
+    @Override
     public AccountResponseDto save(AccountRequestDto accountRequestDto) {
         return accountMapper.toResponseDto(accountRepository.save(accountMapper.toEntity(accountRequestDto)));
     }
 
+    @Override
     public void delete(long id) {
         accountRepository.deleteById(id);
     }
