@@ -10,17 +10,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/client")
 public class ClientController {
     private final ClientService clientService;
 
     @GetMapping("/{id}")
     public ResponseEntity<ClientResponseDto> getById(@PathVariable long id) {
-        Optional<ClientResponseDto> clientResponseDto = clientService.getById(id);
-        return clientResponseDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        try {
+            ClientResponseDto clientResponseDto = clientService.getById(id);
+            return ResponseEntity.ok(clientResponseDto);
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping

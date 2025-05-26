@@ -13,7 +13,7 @@ public class ClientMapper {
     }
 
     public Client toEntity(ClientRequestDto clientRequestDto) {
-        return new Client(clientRequestDto.id(), clientRequestDto.firstName(), clientRequestDto.middleName(),
+        return new Client(clientRequestDto.firstName(), clientRequestDto.middleName(),
                 clientRequestDto.lastName());
     }
 }

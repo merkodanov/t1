@@ -21,7 +21,7 @@ public class AccountMapper {
         Client client = clientRepository.findById(accountRequestDto.clientId())
                 .orElseThrow(() -> new RuntimeException("Клиента не существует"));
 
-        return new Account(accountRequestDto.id(), accountRequestDto.balance(), accountRequestDto.type(),
+        return new Account(accountRequestDto.balance(), accountRequestDto.type(),
                 client);
     }
 }

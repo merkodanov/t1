@@ -21,4 +21,10 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
+
+    public Transaction(BigDecimal totalAmount, Instant time, Account account) {
+        this.totalAmount = totalAmount;
+        this.time = time;
+        this.account = account;
+    }
 }

@@ -12,3 +12,9 @@ spring:
         ddl-auto: none
   liquibase:
     enabled: true
+logging:
+  level:
+    com.t1.aop: DEBUG
+    root: info
+server:
+  port: 8080

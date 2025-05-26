@@ -11,7 +11,7 @@ CREATE TABLE account
 (
     id        BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     balance   DECIMAL               NULL,
-    type      SMALLINT              NULL,
+    type      VARCHAR(50)              NULL,
     client_id BIGINT                NOT NULL
 );
 

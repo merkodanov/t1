@@ -22,7 +22,7 @@ public class TransactionMapper {
         Account account = accountRepository.findById(transactionRequestDto.accountId())
                 .orElseThrow(() -> new RuntimeException("Аккаунта не существует"));
 
-        return new Transaction(transactionRequestDto.id(), transactionRequestDto.totalAmount(),
+        return new Transaction(transactionRequestDto.totalAmount(),
                 transactionRequestDto.time(), account);
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,8 +18,14 @@ public class AccountController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AccountResponseDto> getById(@PathVariable long id) {
-        Optional<AccountResponseDto> accountResponseDto = accountService.getById(id);
-        return accountResponseDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        try {
+            AccountResponseDto accountResponseDto = accountService.getById(id);
+            return ResponseEntity.ok(accountResponseDto);
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping
