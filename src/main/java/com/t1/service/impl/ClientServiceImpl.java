@@ -1,6 +1,8 @@
 package com.t1.service.impl;
 
-import com.t1.aop.LogDataSourceError;
+import com.t1.aop.annotation.Cacheable;
+import com.t1.aop.annotation.LogDataSourceError;
+import com.t1.aop.annotation.TrackTime;
 import com.t1.dto.ClientRequestDto;
 import com.t1.dto.ClientResponseDto;
 import com.t1.mapper.ClientMapper;
@@ -22,12 +24,15 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @LogDataSourceError
+    @TrackTime
     public List<ClientResponseDto> getAll() {
         return clientRepository.findAll().stream().map(clientMapper::toResponseDto).collect(Collectors.toList());
     }
 
     @Override
     @LogDataSourceError
+    @TrackTime
+    @Cacheable
     public ClientResponseDto getById(long id) {
         Client client =
                 clientRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Клиент с id " + id + " не " +
@@ -37,12 +42,14 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     @LogDataSourceError
+    @TrackTime
     public ClientResponseDto save(ClientRequestDto clientRequestDto) {
         return clientMapper.toResponseDto(clientRepository.save(clientMapper.toEntity(clientRequestDto)));
     }
 
     @Override
     @LogDataSourceError
+    @TrackTime
     public void delete(long id) {
         boolean exists = clientRepository.existsById(id);
         if (!exists) {

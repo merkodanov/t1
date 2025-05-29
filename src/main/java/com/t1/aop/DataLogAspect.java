@@ -18,7 +18,7 @@ import java.util.Arrays;
 public class DataLogAspect {
     private final DataSourceErrorLogRepository dataSourceErrorLogRepository;
 
-    @Around("@annotation(LogDataSourceError)")
+    @Around("@annotation(com.t1.aop.annotation.LogDataSourceError)")
     public Object dataSourceError(ProceedingJoinPoint joinPoint) throws Throwable {
         try {
             return joinPoint.proceed();

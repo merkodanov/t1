@@ -18,3 +18,7 @@ logging:
     root: info
 server:
   port: 8080
+app:
+  executionTime: 5
+#  Время в миллисекундах
+  ttl: 60000

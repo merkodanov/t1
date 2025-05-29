@@ -1,6 +1,8 @@
 package com.t1.service.impl;
 
-import com.t1.aop.LogDataSourceError;
+import com.t1.aop.annotation.Cacheable;
+import com.t1.aop.annotation.LogDataSourceError;
+import com.t1.aop.annotation.TrackTime;
 import com.t1.dto.TransactionRequestDto;
 import com.t1.dto.TransactionResponseDto;
 import com.t1.mapper.TransactionMapper;
@@ -22,6 +24,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @LogDataSourceError
+    @TrackTime
     public List<TransactionResponseDto> getAll() {
         return transactionRepository.findAll()
                 .stream().map(transactionMapper::toResponseDto).collect(Collectors.toList());
@@ -29,6 +32,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @LogDataSourceError
+    @TrackTime
+    @Cacheable
     public TransactionResponseDto getById(long id) {
         Transaction transaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Клиент с id " + id + " не найден"));
@@ -37,6 +42,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @LogDataSourceError
+    @TrackTime
     public TransactionResponseDto save(TransactionRequestDto transactionRequestDto) {
         return transactionMapper.toResponseDto(
                 transactionRepository.save(transactionMapper.toEntity(transactionRequestDto)));
@@ -44,6 +50,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @LogDataSourceError
+    @TrackTime
     public void delete(long id) {
         boolean exists = transactionRepository.existsById(id);
         if (!exists) {

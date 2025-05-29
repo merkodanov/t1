@@ -1,6 +1,8 @@
 package com.t1.service.impl;
 
-import com.t1.aop.LogDataSourceError;
+import com.t1.aop.annotation.Cacheable;
+import com.t1.aop.annotation.LogDataSourceError;
+import com.t1.aop.annotation.TrackTime;
 import com.t1.dto.AccountRequestDto;
 import com.t1.dto.AccountResponseDto;
 import com.t1.mapper.AccountMapper;
@@ -22,6 +24,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @LogDataSourceError
+    @TrackTime
     public List<AccountResponseDto> getAll() {
         return accountRepository.findAll().stream()
                 .map(accountMapper::toResponseDto).collect(Collectors.toList());
@@ -29,6 +32,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @LogDataSourceError
+    @TrackTime
+    @Cacheable
     public AccountResponseDto getById(long id) {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Клиент с id " + id + " не найден"));
@@ -38,12 +43,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @LogDataSourceError
+    @TrackTime
     public AccountResponseDto save(AccountRequestDto accountRequestDto) {
         return accountMapper.toResponseDto(accountRepository.save(accountMapper.toEntity(accountRequestDto)));
     }
 
     @Override
     @LogDataSourceError
+    @TrackTime
     public void delete(long id) {
         boolean exists = accountRepository.existsById(id);
         if (!exists) {
